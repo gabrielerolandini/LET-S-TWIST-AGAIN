@@ -36,6 +36,11 @@
             color: white;
         }
 
+        #turnMessage {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
         #countdown {
             font-size: 5rem;
             margin-bottom: 20px;
@@ -85,6 +90,10 @@
             text-align: center;
         }
 
+        th:first-child {
+            width: 10%; /* Restringi la colonna POSITION */
+        }
+
         .points-buttons {
             display: flex;
             justify-content: center;
@@ -118,6 +127,8 @@
 </head>
 <body>
 
+    <h1 id="turnMessage"></h1> <!-- Messaggio del turno corrente -->
+    
     <div id="playText">PLAY!</div>
     <button id="playButton"></button>
 
@@ -191,7 +202,7 @@
                     document.getElementById("countdown").innerText = "STOP!";
                     document.getElementById("pauseButton").style.display = 'none';
                     document.getElementById("resetButton").style.display = 'block';
-                    updatePlayerTurn();
+                    updatePlayerTurn(); // Avanza il turno senza assegnare punti
                 }
             }, 1000); // Countdown every second
         }
@@ -243,14 +254,30 @@
         function updatePlayerTurn() {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
             const currentPlayer = players[currentPlayerIndex];
+            document.getElementById('turnMessage').textContent = `${currentPlayer.name}, IT'S YOUR TURN!`;
+            document.getElementById('turnMessage').style.color = currentPlayer.color;
+        }
 
-            // Increment player's points
-            currentPlayer.points++;
+        // Function to add points manually
+        function addPoints(index) {
+            players[index].points++;
             updateScoreboard();
+            checkForWinner();
+        }
 
-            // Check for a winner (10 points)
-            if (currentPlayer.points >= maxPoints) {
-                endGame(currentPlayer.name, currentPlayer.color);
+        // Function to remove points manually
+        function removePoints(index) {
+            if (players[index].points > 0) {
+                players[index].points--;
+            }
+            updateScoreboard();
+        }
+
+        // Function to check if there's a winner
+        function checkForWinner() {
+            const winner = players.find(player => player.points >= maxPoints);
+            if (winner) {
+                endGame(winner.name, winner.color);
             }
         }
 
@@ -274,14 +301,21 @@
                 row.innerHTML = `
                     <td>${index + 1}°</td>
                     <td style="background-color: ${player.color}; color: white;">${player.name}</td>
-                    <td>${player.points}</td>
+                    <td>
+                        <div class="points-buttons">
+                            ${player.points}
+                            <button onclick="addPoints(${index})">+</button>
+                            <button onclick="removePoints(${index})">-</button>
+                        </div>
+                    </td>
                 `;
                 scoreboardBody.appendChild(row);
             });
         }
 
-        // Initialize the scoreboard on page load
+        // Initialize the scoreboard and player turn on page load
         updateScoreboard();
+        updatePlayerTurn();
     </script>
 
 </body>
