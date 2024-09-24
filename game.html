@@ -234,7 +234,7 @@
 
         // Function to update the player's turn
         function updatePlayerTurn() {
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            currentPlayerIndex = (currentPlayerIndex) % players.length;
             const currentPlayer = players[currentPlayerIndex];
             turnMessage.textContent = `${currentPlayer.name}, IT'S YOUR TURN!`;
             turnMessage.style.color = currentPlayer.color;
@@ -245,7 +245,7 @@
             if (active === "start") {
                 startButton.disabled = false;
                 startButton.classList.remove("disabled");
-
+                startButton.style.color = black;
                 pauseButton.disabled = true;
                 pauseButton.classList.add("disabled");
 
