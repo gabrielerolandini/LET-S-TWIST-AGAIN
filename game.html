@@ -63,8 +63,9 @@
             padding: 5px;
         }
 
-        .points-buttons {
+        .points {
             display: flex;
+            align-items: center;
             justify-content: center;
             gap: 10px;
         }
@@ -119,8 +120,8 @@
                     <td>${index + 1}°</td>
                     <td style="background-color: ${player.color}; color: white;">${player.name}</td>
                     <td>
-                        ${player.points}
-                        <div class="points-buttons">
+                        <div class="points">
+                            ${player.points}
                             <button onclick="addPoints(${index})">+</button>
                             <button onclick="removePoints(${index})">-</button>
                         </div>
