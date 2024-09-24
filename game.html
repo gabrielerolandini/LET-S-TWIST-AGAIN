@@ -245,39 +245,39 @@
             if (active === "start") {
                 startButton.disabled = false;
                 startButton.classList.remove("disabled");
-                startButton.style.background-color = 'red';
+                startButton.style.backgroundColor = 'red';
               
                 pauseButton.disabled = true;
                 pauseButton.classList.add("disabled");
-                pauseButton.style.background-color = 'gray';
+                pauseButton.style.backgroundColor = 'gray';
 
                 nextButton.disabled = true;
                 nextButton.classList.add("disabled");
-                nextButton.style.background-color = 'gray';
+                nextButton.style.backgroundColor = 'gray';
             } else if (active === "pause") {
                 startButton.disabled = true;
                 startButton.classList.add("disabled");
-                startButton.style.background-color = 'gray';
+                startButton.style.backgroundColor = 'gray';
 
                 pauseButton.disabled = false;
                 pauseButton.classList.remove("disabled");
-                pauseButton.style.background-color = 'orange';
+                pauseButton.style.backgroundColor = 'orange';
 
                 nextButton.disabled = true;
                 nextButton.classList.add("disabled");
-                nextButton.style.background-color = 'gray';
+                nextButton.style.backgroundColor = 'gray';
             } else if (active === "next") {
                 startButton.disabled = true;
                 startButton.classList.add("disabled");
-                startButton.style.background-color = 'gray';
+                startButton.style.backgroundColor = 'gray';
                 
                 pauseButton.disabled = true;
                 pauseButton.classList.add("disabled");
-                pauseButton.style.background-color = 'gray';
+                pauseButton.style.backgroundColor = 'gray';
 
                 nextButton.disabled = false;
                 nextButton.classList.remove("disabled");
-                nextButton.style.background-color = 'green';
+                nextButton.style.backgroundColor = 'green';
             }
         }
 
