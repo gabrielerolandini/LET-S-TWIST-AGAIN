@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Players</title>
+    <title>Aggiungi Giocatori</title>
     <style>
         body {
             display: flex;
@@ -40,12 +40,14 @@
         table {
             margin-top: 20px;
             border-collapse: collapse;
+            width: 300px;
         }
 
         th, td {
             border: 1px solid #000;
             padding: 10px;
             text-align: center;
+            font-size: 1.2rem;
         }
 
         #readyButton {
@@ -72,8 +74,7 @@
     <table id="playerTable">
         <thead>
             <tr>
-                <th>Player</th>
-                <th>Color</th>
+                <th>Players</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -113,7 +114,7 @@
             playerTableBody.innerHTML = '';
             players.forEach((player, index) => {
                 const row = document.createElement('tr');
-                row.innerHTML = `<td>${player.name}</td><td style="background-color: ${player.color};">${player.color}</td>`;
+                row.innerHTML = `<td style="background-color: ${player.color}; color: white;">${player.name}</td>`;
                 playerTableBody.appendChild(row);
             });
         }
