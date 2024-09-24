@@ -3,180 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LET'S TWIST AGAIN!</title>
+    <title>Bottone Audio con Countdown e Pausa</title>
     <style>
         body {
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            margin: 0;
             background-color: #f0f0f0;
+            margin: 0;
             text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
         }
 
         #playButton {
             background: url('red.png') no-repeat center;
             background-size: contain;
-            width: 300px;
-            height: 300px;
-            position: relative;
+            width: 80%;
+            max-width: 300px;
+            height: 80%;
+            max-height: 300px;
             border: none;
             cursor: pointer;
+            position: relative;
         }
 
         #playText {
             position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3rem;
+            top: -100px;
+            font-size: 4rem;
             font-weight: bold;
             color: white;
-            text-align: center;
         }
 
-        #scoreboard {
-            margin-top: 20px;
+        #countdown {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            display: none;
         }
 
-        #scoreboard table {
-            width: 70%;
-            border-collapse: collapse;
-        }
-
-        #scoreboard th, #scoreboard td {
-            border: 1px solid #000;
-            padding: 10px;
-            text-align: center;
-        }
-
-        #scoreboard td button {
+        #pauseButton, #resetButton {
+            font-size: 2rem;
+            padding: 10px 20px;
+            border: none;
             cursor: pointer;
-            font-size: 1rem;
-            padding: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            display: none;
         }
 
-        .points {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        #pauseButton {
+            background-color: #FFA500; /* Orange for pause */
+        }
+
+        #resetButton {
+            background-color: #FF0000; /* Red for reset */
+        }
+
+        #twistAgainText {
+            font-size: 3rem;
+            color: red;
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            #playText {
+                font-size: 3rem;
+            }
+
+            #countdown {
+                font-size: 3rem;
+            }
+
+            #playButton {
+                width: 60%;
+                height: 60%;
+            }
+
+            #pauseButton, #resetButton {
+                font-size: 1.5rem;
+                padding: 5px 15px;
+            }
+
+            #twistAgainText {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1 id="turnMessage"></h1>
+    <div id="playText">PLAY!</div>
+    <button id="playButton"></button>
 
-    <div id="playButton">
-        <div id="playText">PLAY!</div>
-    </div>
-
-    <div id="scoreboard">
-        <table>
-            <thead>
-                <tr>
-                    <th>Position</th>
-                    <th>Player</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody id="scoreboardBody"></tbody>
-        </table>
-    </div>
+    <div id="twistAgainText">LET'S TWIST AGAIN!</div>
+    <div id="countdown">20</div>
+    <button id="pauseButton">PAUSE</button>
+    <button id="resetButton">RESET</button>
 
     <audio id="audioA" src="lets_twist_again.mp3"></audio>
     <audio id="audioB" src="countdown.mp3"></audio>
 
     <script>
-        const players = JSON.parse(localStorage.getItem('players'));
-        const playerScores = players.map(player => ({ name: player.name, color: player.color, points: 0 }));
+        let isPlaying = false;
+        let currentAudio = null;
+        let countdownInterval = null;
+        let countdownValue = 20;
+        let playerScores = [
+            { name: "Player 1", color: "#FF5733", points: 0 },
+            { name: "Player 2", color: "#33FF57", points: 0 },
+            { name: "Player 3", color: "#3357FF", points: 0 }
+        ];
         let currentPlayerIndex = 0;
 
-        const turnMessage = document.getElementById('turnMessage');
-        const playButton = document.getElementById('playButton');
-        const scoreboardBody = document.getElementById('scoreboardBody');
-        let currentAudio = null;
-
-        function updateTurn() {
-            const currentPlayer = players[currentPlayerIndex];
-            turnMessage.textContent = `${currentPlayer.name}, IT'S YOUR TURN!`;
-            turnMessage.style.color = currentPlayer.color;
-        }
-
-        function updateScoreboard() {
-            playerScores.sort((a, b) => b.points - a.points);
-            scoreboardBody.innerHTML = '';
-            playerScores.forEach((player, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}°</td>
-                    <td style="background-color: ${player.color}; color: white;">${player.name}</td>
-                    <td>
-                        <div class="points">
-                            ${player.points}
-                            <button onclick="addPoints(${index})">+</button>
-                            <button onclick="removePoints(${index})">-</button>
-                        </div>
-                    </td>
-                `;
-                scoreboardBody.appendChild(row);
-            });
-        }
-
-        function addPoints(index) {
-            playerScores[index].points++;
-            updateScoreboard();
-            checkForWinner();
-        }
-
-        function removePoints(index) {
-            if (playerScores[index].points > 0) {
-                playerScores[index].points--;
-            }
-            updateScoreboard();
-        }
-
-        function checkForWinner() {
-            const winner = playerScores.find(player => player.points >= 10);
-            if (winner) {
-                endGame(winner.name);
-            }
-        }
-
-        function endGame(winnerName) {
-            const winner = playerScores.find(player => player.name === winnerName);
-            turnMessage.textContent = `${winnerName} WINS!`;
-            turnMessage.style.color = winner.color; // Usa il colore del giocatore vincitore
-            playButton.style.display = 'none'; // Nascondi il bottone di gioco
-            scoreboardBody.querySelectorAll('button').forEach(button => button.style.display = 'none'); // Nascondi i bottoni dei punti
-        }
-
-
-        playButton.addEventListener('click', function() {
-            const random = Math.random();
-            if (random < 0.3) {
-                currentAudio = document.getElementById('audioA');
-            } else {
-                currentAudio = document.getElementById('audioB');
-            }
-            currentAudio.play();
-
-            currentAudio.onended = function() {
-                currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-                updateTurn();
-            };
+        // Play button functionality
+        document.getElementById("playButton").addEventListener("click", function () {
+            startCountdown();
+            playRandomAudio();
         });
 
-        updateTurn();
-        updateScoreboard();
+        // Pause button functionality
+        document.getElementById("pauseButton").addEventListener("click", function () {
+            pauseCountdown();
+            resetState(); // Reset the page to the initial state
+        });
+
+        // Reset button functionality
+        document.getElementById("resetButton").addEventListener("click", function () {
+            resetState();
+        });
+
+        // Function to start the countdown
+        function startCountdown() {
+            // Hide play button and play text, show countdown and pause button
+            document.getElementById("playButton").style.display = 'none';
+            document.getElementById("playText").style.display = 'none';
+            document.getElementById("countdown").style.display = 'block';
+            document.getElementById("pauseButton").style.display = 'block';
+
+            countdownValue = 20;
+            document.getElementById("countdown").innerText = countdownValue;
+
+            countdownInterval = setInterval(function() {
+                countdownValue--;
+                if (countdownValue > 0) {
+                    document.getElementById("countdown").innerText = countdownValue;
+                } else {
+                    clearInterval(countdownInterval);
+                    document.getElementById("countdown").innerText = "STOP!";
+                    document.getElementById("pauseButton").style.display = 'none';
+                    document.getElementById("resetButton").style.display = 'block';
+                    updatePlayerTurn();
+                }
+            }, 1000); // Countdown every second
+        }
+
+        // Function to play random audio
+        function playRandomAudio() {
+            let random = Math.random();
+            if (random < 0.3) { // 30% chance
+                currentAudio = document.getElementById("audioA");
+                document.getElementById("twistAgainText").style.display = 'block'; // Show "LET'S TWIST AGAIN!"
+            } else { // 70% chance
+                currentAudio = document.getElementById("audioB");
+                document.getElementById("twistAgainText").style.display = 'none'; // Hide "LET'S TWIST AGAIN!"
+            }
+            currentAudio.play();
+            isPlaying = true;
+        }
+
+        // Function to pause countdown and audio
+        function pauseCountdown() {
+            clearInterval(countdownInterval);
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0; // Reset audio to the start
+            }
+        }
+
+        // Function to reset the state of the page
+        function resetState() {
+            // Reset audio and countdown
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0; // Reset audio
+            }
+            countdownValue = 20;
+            document.getElementById("countdown").innerText = countdownValue;
+
+            // Show play button and text, hide reset, countdown, and pause button
+            document.getElementById("playButton").style.display = 'block';
+            document.getElementById("playText").style.display = 'block';
+            document.getElementById("resetButton").style.display = 'none';
+            document.getElementById("pauseButton").style.display = 'none';
+            document.getElementById("countdown").style.display = 'none';
+            document.getElementById("twistAgainText").style.display = 'none';
+            isPlaying = false;
+        }
+
+        // Update player turn logic
+        function updatePlayerTurn() {
+            currentPlayerIndex = (currentPlayerIndex + 1) % playerScores.length;
+            const currentPlayer = playerScores[currentPlayerIndex];
+
+            // Increment player's points
+            currentPlayer.points++;
+
+            // Check for a winner (10 points)
+            if (currentPlayer.points >= 10) {
+                endGame(currentPlayer.name, currentPlayer.color);
+            }
+        }
+
+        // Function to end the game
+        function endGame(winnerName, winnerColor) {
+            document.getElementById("playButton").style.display = 'none';
+            document.getElementById("playText").style.display = 'none';
+            document.getElementById("pauseButton").style.display = 'none';
+            document.getElementById("resetButton").style.display = 'none';
+            document.getElementById("countdown").innerText = `${winnerName} WINS!`;
+            document.getElementById("countdown").style.color = winnerColor; // Use winner's color
+        }
     </script>
 
 </body>
