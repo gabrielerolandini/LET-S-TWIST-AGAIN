@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bottone Audio con Countdown e Pausa</title>
+    <title>LET'S TWIST AGAIN!</title>
     <style>
         body {
             display: flex;
@@ -68,6 +68,29 @@
             margin-bottom: 20px;
         }
 
+        #scoreboard {
+            margin-top: 20px;
+            width: 60%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .points-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
         @media (max-width: 768px) {
             #playText {
                 font-size: 3rem;
@@ -106,17 +129,34 @@
     <audio id="audioA" src="lets_twist_again.mp3"></audio>
     <audio id="audioB" src="countdown.mp3"></audio>
 
+    <div id="scoreboard">
+        <h2>Scoreboard</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Player</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody id="scoreboardBody"></tbody>
+        </table>
+    </div>
+
     <script>
         let isPlaying = false;
         let currentAudio = null;
         let countdownInterval = null;
         let countdownValue = 20;
+        const maxPoints = 10;
+        let currentPlayerIndex = 0;
+
+        // Players' data (could be dynamic)
         let playerScores = [
             { name: "Player 1", color: "#FF5733", points: 0 },
             { name: "Player 2", color: "#33FF57", points: 0 },
             { name: "Player 3", color: "#3357FF", points: 0 }
         ];
-        let currentPlayerIndex = 0;
 
         // Play button functionality
         document.getElementById("playButton").addEventListener("click", function () {
@@ -210,9 +250,10 @@
 
             // Increment player's points
             currentPlayer.points++;
+            updateScoreboard();
 
             // Check for a winner (10 points)
-            if (currentPlayer.points >= 10) {
+            if (currentPlayer.points >= maxPoints) {
                 endGame(currentPlayer.name, currentPlayer.color);
             }
         }
@@ -226,7 +267,12 @@
             document.getElementById("countdown").innerText = `${winnerName} WINS!`;
             document.getElementById("countdown").style.color = winnerColor; // Use winner's color
         }
-    </script>
 
-</body>
-</html>
+        // Function to update scoreboard
+        function updateScoreboard() {
+            playerScores.sort((a, b) => b.points - a.points);
+            const scoreboardBody = document.getElementById("scoreboardBody");
+            scoreboardBody.innerHTML = '';
+            playerScores.forEach((player, index) => {
+                const row = document.createElement('tr');
+               
