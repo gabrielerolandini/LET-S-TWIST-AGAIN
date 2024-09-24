@@ -64,7 +64,7 @@
 </head>
 <body>
 
-    <h1>ADD PLAYER</h1>
+    <h1>LET'S TWIST AGAIN!</h1>
 
     <form id="playerForm">
         <input type="text" id="playerName" placeholder="Enter player name" required>
@@ -85,7 +85,7 @@
     <script>
         const maxPlayers = 7;
         const minPlayers = 3;
-        const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FFC300', '#cba39d', '#581845'];
+        const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FFC300', '#FF5733', '#581845'];
         const players = [];
 
         const form = document.getElementById('playerForm');
@@ -99,7 +99,7 @@
 
             if (playerName && players.length < maxPlayers) {
                 const playerColor = colors[players.length];
-                players.push({ name: playerName, color: playerColor });
+                players.push({ name: playerName, color: playerColor, points: 0 });
                 updatePlayerTable();
 
                 if (players.length >= minPlayers) {
