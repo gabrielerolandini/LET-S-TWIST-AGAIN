@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bottone Audio con Countdown</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        button, #resetButton {
+            background: url('red.png') no-repeat center;
+            background-size: contain;
+            width: 100px;
+            height: 100px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #countdown {
+            font-size: 2rem;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #resetButton {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="playButton"></button>
+
+    <div id="countdown">20</div>
+    <button id="resetButton">Reset</button>
+
+    <audio id="audioA" src="lets_twist_again.mp3"></audio>
+    <audio id="audioB" src="countdown.mp3"></audio>
+
+    <script>
+        let isPlaying = false;
+        let currentAudio = null;
+        let countdownInterval = null;
+        let countdownValue = 20;
+
+        // Play button functionality
+        document.getElementById("playButton").addEventListener("click", function () {
+            // Start countdown
+            startCountdown();
+
+            // Randomly select an audio
+            if (!isPlaying) {
+                let random = Math.random();
+                if (random < 0.3) { // 30% chance
+                    currentAudio = document.getElementById("audioA");
+                } else { // 70% chance
+                    currentAudio = document.getElementById("audioB");
+                }
+                currentAudio.play();
+                isPlaying = true;
+            }
+        });
+
+        // Reset button functionality
+        document.getElementById("resetButton").addEventListener("click", function () {
+            resetState();
+        });
+
+        // Function to start the countdown
+        function startCountdown() {
+            // Hide play button, show countdown
+            document.getElementById("playButton").style.display = 'none';
+            document.getElementById("countdown").style.display = 'block';
+
+            // Set countdown interval
+            countdownInterval = setInterval(function() {
+                countdownValue--;
+                document.getElementById("countdown").innerText = countdownValue;
+
+                if (countdownValue === 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById("countdown").style.display = 'none';
+                    document.getElementById("resetButton").style.display = 'block';
+                }
+            }, 1000); // Countdown every second
+        }
+
+        // Function to reset the state
+        function resetState() {
+            // Reset audio and countdown
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0; // Reset audio
+            }
+            countdownValue = 20;
+            document.getElementById("countdown").innerText = countdownValue;
+
+            // Show play button, hide reset and countdown
+            document.getElementById("playButton").style.display = 'block';
+            document.getElementById("resetButton").style.display = 'none';
+            isPlaying = false;
+        }
+    </script>
+
+</body>
+</html>
