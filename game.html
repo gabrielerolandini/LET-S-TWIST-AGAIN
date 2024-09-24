@@ -56,6 +56,13 @@
             color: white;
         }
 
+        #twistAgainText {
+            font-size: 3rem;
+            color: red;
+            display: none;
+            margin-bottom: 20px;
+        }
+
         #scoreboard {
             margin-top: 20px;
             width: 60%;
@@ -96,12 +103,18 @@
                 font-size: 1.2rem;
                 padding: 5px 15px;
             }
+
+            #twistAgainText {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <h1 id="turnMessage"></h1> <!-- Messaggio del turno corrente -->
+
+    <div id="twistAgainText">LET'S TWIST AGAIN!</div>
 
     <div>
         <button id="startButton" class="button">START</button>
@@ -145,8 +158,9 @@
         const nextButton = document.getElementById("nextButton");
         const countdown = document.getElementById("countdown");
         const turnMessage = document.getElementById("turnMessage");
+        const twistAgainText = document.getElementById("twistAgainText");
 
-        // Play button functionality
+        // Start button functionality
         startButton.addEventListener("click", function () {
             startCountdown();
             playRandomAudio();
@@ -161,6 +175,7 @@
 
         // Next button functionality
         nextButton.addEventListener("click", function () {
+            twistAgainText.style.display = "none"; // Nascondi LET'S TWIST AGAIN! dopo aver cliccato
             updatePlayerTurn();
             resetState(); // Reset the page to the initial state
             toggleButtons("start");
@@ -189,8 +204,10 @@
             let random = Math.random();
             if (random < 0.3) { // 30% chance
                 currentAudio = document.getElementById("audioA");
+                twistAgainText.style.display = "block"; // Mostra LET'S TWIST AGAIN!
             } else { // 70% chance
                 currentAudio = document.getElementById("audioB");
+                twistAgainText.style.display = "none";
             }
             currentAudio.play();
             isPlaying = true;
