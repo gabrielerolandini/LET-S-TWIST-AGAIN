@@ -152,11 +152,13 @@
         }
 
         function endGame(winnerName) {
+            const winner = playerScores.find(player => player.name === winnerName);
             turnMessage.textContent = `${winnerName} WINS!`;
-            turnMessage.style.color = 'green';
-            playButton.style.display = 'none'; // Hide the play button
-            scoreboardBody.querySelectorAll('button').forEach(button => button.style.display = 'none'); // Hide point buttons
+            turnMessage.style.color = winner.color; // Usa il colore del giocatore vincitore
+            playButton.style.display = 'none'; // Nascondi il bottone di gioco
+            scoreboardBody.querySelectorAll('button').forEach(button => button.style.display = 'none'); // Nascondi i bottoni dei punti
         }
+
 
         playButton.addEventListener('click', function() {
             const random = Math.random();
