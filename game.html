@@ -21,13 +21,25 @@
             margin-bottom: 20px;
         }
 
-        button {
+        #playButton {
             background: url('red.png') no-repeat center;
             background-size: contain;
-            width: 100px;
-            height: 100px;
+            width: 300px;
+            height: 300px;
+            position: relative;
             border: none;
             cursor: pointer;
+        }
+
+        #playText {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
         }
 
         #scoreboard {
@@ -35,7 +47,7 @@
         }
 
         #scoreboard table {
-            width: 50%;
+            width: 70%;
             border-collapse: collapse;
         }
 
@@ -49,6 +61,8 @@
             cursor: pointer;
             font-size: 1rem;
             padding: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -56,21 +70,25 @@
 
     <h1 id="turnMessage"></h1>
 
-    <button id="playButton"></button>
+    <div id="playButton">
+        <div id="playText">PLAY!</div>
+    </div>
 
     <div id="scoreboard">
         <table>
             <thead>
                 <tr>
+                    <th>Position °</th>
                     <th>Player</th>
                     <th>Points</th>
-                    <th>Position</th>
-                    <th>Add Points</th>
                 </tr>
             </thead>
             <tbody id="scoreboardBody"></tbody>
         </table>
     </div>
+
+    <audio id="audioA" src="lets_twist_again.mp3"></audio>
+    <audio id="audioB" src="countdown.mp3"></audio>
 
     <script>
         const players = JSON.parse(localStorage.getItem('players'));
@@ -81,6 +99,7 @@
         const turnMessage = document.getElementById('turnMessage');
         const playButton = document.getElementById('playButton');
         const scoreboardBody = document.getElementById('scoreboardBody');
+        let currentAudio = null;
 
         function updateTurn() {
             const currentPlayer = players[currentPlayerIndex];
@@ -94,10 +113,13 @@
             playerScores.forEach((player, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td style="color: ${player.color};">${player.name}</td>
-                    <td>${player.points}</td>
-                    <td>${index + 1}</td>
-                    <td><button onclick="addPoints(${index})">+</button></td>
+                    <td>${index + 1}°</td>
+                    <td style="background-color: ${player.color}; color: white;">${player.name}</td>
+                    <td>
+                        ${player.points} 
+                        <button onclick="addPoints(${index})">+</button>
+                        <button onclick="removePoints(${index})">-</button>
+                    </td>
                 `;
                 scoreboardBody.appendChild(row);
             });
@@ -108,15 +130,32 @@
             updateScoreboard();
         }
 
-        playButton.addEventListener('click', function() {
-            rounds++;
-            if (rounds >= players.length * 3) {
-                alert("Game Over!");
-                return;
+        function removePoints(index) {
+            if (playerScores[index].points > 0) {
+                playerScores[index].points--;
             }
+            updateScoreboard();
+        }
 
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-            updateTurn();
+        playButton.addEventListener('click', function() {
+            const random = Math.random();
+            if (random < 0.3) {
+                currentAudio = document.getElementById('audioA');
+            } else {
+                currentAudio = document.getElementById('audioB');
+            }
+            currentAudio.play();
+
+            currentAudio.onended = function() {
+                rounds++;
+                if (rounds >= players.length * 3) {
+                    alert("Game Over!");
+                    return;
+                }
+
+                currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+                updateTurn();
+            };
         });
 
         updateTurn();
