@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bottone Audio con Countdown</title>
+    <title>Bottone Audio con Countdown e Pausa</title>
     <style>
         body {
             display: flex;
@@ -15,23 +15,56 @@
             margin: 0;
         }
 
-        button, #resetButton {
+        #playButton {
             background: url('red.png') no-repeat center;
             background-size: contain;
-            width: 100px;
-            height: 100px;
+            width: 80%;
+            max-width: 300px;
+            height: 80%;
+            max-height: 300px;
             border: none;
             cursor: pointer;
         }
 
         #countdown {
-            font-size: 2rem;
-            margin-top: 20px;
+            font-size: 5rem;
+            margin-bottom: 20px;
             display: none;
         }
 
-        #resetButton {
+        #pauseButton, #resetButton {
+            font-size: 2rem;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
             display: none;
+        }
+
+        #pauseButton {
+            background-color: #FFA500; /* Orange for pause */
+        }
+
+        #resetButton {
+            background-color: #FF0000; /* Red for reset */
+        }
+
+        @media (max-width: 768px) {
+            #countdown {
+                font-size: 3rem;
+            }
+
+            #playButton {
+                width: 60%;
+                height: 60%;
+            }
+
+            #pauseButton, #resetButton {
+                font-size: 1.5rem;
+                padding: 5px 15px;
+            }
         }
     </style>
 </head>
@@ -40,7 +73,8 @@
     <button id="playButton"></button>
 
     <div id="countdown">20</div>
-    <button id="resetButton">Reset</button>
+    <button id="pauseButton">PAUSE</button>
+    <button id="resetButton">RESET</button>
 
     <audio id="audioA" src="lets_twist_again.mp3"></audio>
     <audio id="audioB" src="countdown.mp3"></audio>
@@ -53,20 +87,14 @@
 
         // Play button functionality
         document.getElementById("playButton").addEventListener("click", function () {
-            // Start countdown
             startCountdown();
+            playRandomAudio();
+        });
 
-            // Randomly select an audio
-            if (!isPlaying) {
-                let random = Math.random();
-                if (random < 0.3) { // 30% chance
-                    currentAudio = document.getElementById("audioA");
-                } else { // 70% chance
-                    currentAudio = document.getElementById("audioB");
-                }
-                currentAudio.play();
-                isPlaying = true;
-            }
+        // Pause button functionality
+        document.getElementById("pauseButton").addEventListener("click", function () {
+            pauseCountdown();
+            resetState(); // Reset the page to the initial state
         });
 
         // Reset button functionality
@@ -76,24 +104,49 @@
 
         // Function to start the countdown
         function startCountdown() {
-            // Hide play button, show countdown
+            // Hide play button, show countdown and pause button
             document.getElementById("playButton").style.display = 'none';
             document.getElementById("countdown").style.display = 'block';
+            document.getElementById("pauseButton").style.display = 'block';
 
-            // Set countdown interval
+            countdownValue = 20;
+            document.getElementById("countdown").innerText = countdownValue;
+
             countdownInterval = setInterval(function() {
                 countdownValue--;
-                document.getElementById("countdown").innerText = countdownValue;
-
-                if (countdownValue === 0) {
+                if (countdownValue > 0) {
+                    document.getElementById("countdown").innerText = countdownValue;
+                } else {
                     clearInterval(countdownInterval);
-                    document.getElementById("countdown").style.display = 'none';
+                    document.getElementById("countdown").innerText = "STOP!";
+                    document.getElementById("pauseButton").style.display = 'none';
                     document.getElementById("resetButton").style.display = 'block';
                 }
             }, 1000); // Countdown every second
         }
 
-        // Function to reset the state
+        // Function to play random audio
+        function playRandomAudio() {
+            let random = Math.random();
+            if (random < 0.3) { // 30% chance
+                currentAudio = document.getElementById("audioA");
+            } else { // 70% chance
+                currentAudio = document.getElementById("audioB");
+            }
+            currentAudio.play();
+            isPlaying = true;
+        }
+
+        // Function to pause countdown and audio
+        function pauseCountdown() {
+            clearInterval(countdownInterval);
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0; // Reset audio to the start
+            }
+        }
+
+        // Function to reset the state of the page
         function resetState() {
             // Reset audio and countdown
             if (currentAudio) {
@@ -103,9 +156,11 @@
             countdownValue = 20;
             document.getElementById("countdown").innerText = countdownValue;
 
-            // Show play button, hide reset and countdown
+            // Show play button, hide reset, countdown, and pause button
             document.getElementById("playButton").style.display = 'block';
             document.getElementById("resetButton").style.display = 'none';
+            document.getElementById("pauseButton").style.display = 'none';
+            document.getElementById("countdown").style.display = 'none';
             isPlaying = false;
         }
     </script>
