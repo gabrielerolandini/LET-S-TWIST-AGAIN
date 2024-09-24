@@ -151,12 +151,8 @@
         const maxPoints = 10;
         let currentPlayerIndex = 0;
 
-        // Players' data (could be dynamic)
-        let playerScores = [
-            { name: "Player 1", color: "#FF5733", points: 0 },
-            { name: "Player 2", color: "#33FF57", points: 0 },
-            { name: "Player 3", color: "#3357FF", points: 0 }
-        ];
+        // Get players from localStorage
+        const players = JSON.parse(localStorage.getItem('players'));
 
         // Play button functionality
         document.getElementById("playButton").addEventListener("click", function () {
@@ -245,8 +241,8 @@
 
         // Update player turn logic
         function updatePlayerTurn() {
-            currentPlayerIndex = (currentPlayerIndex + 1) % playerScores.length;
-            const currentPlayer = playerScores[currentPlayerIndex];
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            const currentPlayer = players[currentPlayerIndex];
 
             // Increment player's points
             currentPlayer.points++;
@@ -270,9 +266,23 @@
 
         // Function to update scoreboard
         function updateScoreboard() {
-            playerScores.sort((a, b) => b.points - a.points);
+            players.sort((a, b) => b.points - a.points);
             const scoreboardBody = document.getElementById("scoreboardBody");
             scoreboardBody.innerHTML = '';
-            playerScores.forEach((player, index) => {
+            players.forEach((player, index) => {
                 const row = document.createElement('tr');
-               
+                row.innerHTML = `
+                    <td>${index + 1}°</td>
+                    <td style="background-color: ${player.color}; color: white;">${player.name}</td>
+                    <td>${player.points}</td>
+                `;
+                scoreboardBody.appendChild(row);
+            });
+        }
+
+        // Initialize the scoreboard on page load
+        updateScoreboard();
+    </script>
+
+</body>
+</html>
