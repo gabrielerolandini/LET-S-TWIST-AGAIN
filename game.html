@@ -33,10 +33,10 @@
 
         #playText {
             position: absolute;
-            top: 50%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2rem;
+            font-size: 3rem;
             font-weight: bold;
             color: white;
             text-align: center;
@@ -61,8 +61,12 @@
             cursor: pointer;
             font-size: 1rem;
             padding: 5px;
-            margin-left: 5px;
-            margin-right: 5px;
+        }
+
+        .points-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
     </style>
 </head>
@@ -78,7 +82,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>Position °</th>
+                    <th>Position</th>
                     <th>Player</th>
                     <th>Points</th>
                 </tr>
@@ -94,7 +98,6 @@
         const players = JSON.parse(localStorage.getItem('players'));
         const playerScores = players.map(player => ({ name: player.name, color: player.color, points: 0 }));
         let currentPlayerIndex = 0;
-        let rounds = 0;
 
         const turnMessage = document.getElementById('turnMessage');
         const playButton = document.getElementById('playButton');
@@ -116,9 +119,11 @@
                     <td>${index + 1}°</td>
                     <td style="background-color: ${player.color}; color: white;">${player.name}</td>
                     <td>
-                        ${player.points} 
-                        <button onclick="addPoints(${index})">+</button>
-                        <button onclick="removePoints(${index})">-</button>
+                        ${player.points}
+                        <div class="points-buttons">
+                            <button onclick="addPoints(${index})">+</button>
+                            <button onclick="removePoints(${index})">-</button>
+                        </div>
                     </td>
                 `;
                 scoreboardBody.appendChild(row);
@@ -128,6 +133,7 @@
         function addPoints(index) {
             playerScores[index].points++;
             updateScoreboard();
+            checkForWinner();
         }
 
         function removePoints(index) {
@@ -135,6 +141,20 @@
                 playerScores[index].points--;
             }
             updateScoreboard();
+        }
+
+        function checkForWinner() {
+            const winner = playerScores.find(player => player.points >= 10);
+            if (winner) {
+                endGame(winner.name);
+            }
+        }
+
+        function endGame(winnerName) {
+            turnMessage.textContent = `${winnerName} WINS!`;
+            turnMessage.style.color = 'green';
+            playButton.style.display = 'none'; // Hide the play button
+            scoreboardBody.querySelectorAll('button').forEach(button => button.style.display = 'none'); // Hide point buttons
         }
 
         playButton.addEventListener('click', function() {
@@ -147,12 +167,6 @@
             currentAudio.play();
 
             currentAudio.onended = function() {
-                rounds++;
-                if (rounds >= players.length * 3) {
-                    alert("Game Over!");
-                    return;
-                }
-
                 currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
                 updateTurn();
             };
