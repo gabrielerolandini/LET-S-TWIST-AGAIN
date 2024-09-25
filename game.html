@@ -164,28 +164,25 @@
             });
         }
 
-        // Function to add points manually
-        function addPoints(index) {
-            players[index].points++;
-            updateScoreboard();
-            checkForWinner();
-        }
+function addPoints(index) {
+    players[index].points++;
+    updateScoreboard();
+    checkForWinner();  // Controlla se c'è un vincitore dopo aver aggiunto punti
+}
 
-        // Function to remove points manually
-        function removePoints(index) {
-            if (players[index].points > 0) {
-                players[index].points--;
-            }
-            updateScoreboard();
-        }
-
-        // Function to check if there's a winner
-        function checkForWinner() {
-            const winner = players.find(player => player.points >= maxPoints);
-            if (winner) {
-                endGame(winner.name, winner.color);
-            }
-        }
+function removePoints(index) {
+    if (players[index].points > 0) {
+        players[index].points--;
+        updateScoreboard();
+    }
+}
+function checkForWinner() {
+    const winner = players.find(player => player.points >= maxPoints);
+    console.log(players);  // Log per diagnosticare i giocatori e i loro punti
+    if (winner) {
+        endGame(winner.name, winner.color);
+    }
+}
 
         // Function to end the game
         function endGame(winnerName, winnerColor) {
