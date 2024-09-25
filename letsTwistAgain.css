@@ -159,6 +159,7 @@ th:first-child {
     color: red;
     display: none;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 @media (max-width: 768px) {
