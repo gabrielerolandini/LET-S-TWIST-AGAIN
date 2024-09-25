@@ -129,8 +129,9 @@ th:first-child {
 
 #countdown {
     font-size: 5rem;
-    margin-bottom: 20px;
-    display: none;
+    color: black;
+    display: none; 
+    text-align: center;
 }
 
 @media (max-width: 768px) {
