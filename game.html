@@ -8,8 +8,10 @@
 </head>
 <body>
 
+  <div id="gif-container">
     <img id="twistGif" src="twist.gif" alt="Twist GIF">
     <div id="twistAgainText">LET'S TWIST AGAIN!</div>
+</div>
     <h1 id="turnMessage"></h1>
 
     <div class="button-container">
@@ -180,8 +182,10 @@ function removePoints(index) {
     }
 }
 function checkForWinner() {
+    console.log(players);  // Verifica se i punteggi sono aggiornati correttamente
     const winner = players.find(player => player.points >= maxPoints);
     if (winner) {
+        console.log(`${winner.name} ha vinto!`);  // Log di debug
         endGame(winner.name, winner.color);
     }
 }
