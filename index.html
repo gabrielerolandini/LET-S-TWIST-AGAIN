@@ -100,7 +100,7 @@
 
             if (playerName && players.length < maxPlayers) {
                 const playerColor = colors[players.length];
-                players.push({ name: playerName, color: playerColor, points: 0 });
+                players.push({ name: playerName.toUpperCase(), color: playerColor, points: 0 });
                 updatePlayerTable();
 
                 if (players.length >= minPlayers) {
