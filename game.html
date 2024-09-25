@@ -162,10 +162,10 @@
         let countdownInterval = null;
         let countdownValue = 20;
         const maxPoints = 10;
-        let currentPlayerIndex = 0;
+        let currentPlayerIndex = -1;
 
         // Get players from localStorage
-        const players = JSON.parse(localStorage.getItem('players'));
+        const playersStart = JSON.parse(localStorage.getItem('players'));
 
         // DOM Elements
         const startButton = document.getElementById("startButton");
@@ -253,8 +253,8 @@
 
         // Function to update the player's turn
         function updatePlayerTurn() {
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-            const currentPlayer = players[currentPlayerIndex];
+            currentPlayerIndex = (currentPlayerIndex + 1) % playersStart.length;
+            const currentPlayer = playersStart[currentPlayerIndex];
             turnMessage.textContent = `${currentPlayer.name}, IT'S YOUR TURN!`;
             turnMessage.style.color = currentPlayer.color;
         }
