@@ -182,7 +182,7 @@ function removePoints(index) {
     }
 }
 function checkForWinner() {
-    console.log(players);  // Verifica se i punteggi sono aggiornati correttamente
+    console.log(players); 
     const winner = players.find(player => player.points >= maxPoints);
     if (winner) {
         console.log(`${winner.name} ha vinto!`);  // Log di debug
@@ -190,14 +190,14 @@ function checkForWinner() {
     }
 }
 
-        // Function to end the game
-        function endGame(winnerName, winnerColor) {
-            countdown.innerText = `${winnerName} WINS!`;
-            countdown.style.color = winnerColor;
-            toggleButtons("none");
-        }
+function endGame(winnerName, winnerColor) {
+    countdown.style.display = 'block';  
+    countdown.innerText = `${winnerName} WINS!`;
+    countdown.style.color = winnerColor;
+    toggleButtons("none");
+}
 
-        // Initialize the scoreboard and player turn on page load
+      
         updateScoreboard();
         turnMessage.textContent = `${playersOrder[0].name}, IT'S YOUR TURN!`; // Mostra subito il giocatore 1
         turnMessage.style.color = playersOrder[0].color;
