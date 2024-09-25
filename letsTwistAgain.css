@@ -140,31 +140,29 @@ th:first-child {
 }
 
 #twistGif {
-    display: none;
-    position: absolute;
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
+    display: block;
+    margin: 0 auto;
     width: 250px;
+}
+
+#twistAgainText {
+    display: block;
+    font-size: 3rem;
+    color: red;
+    text-align: center;
+    margin-top: 10px; 
 }
 
 @media (max-width: 768px) {
     #twistGif {
-        width: 200px;
+        width: 250px;
     }
 }
 
-#twistAgainText {
-    font-size: 3rem;
-    color: red;
-    display: none;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
 
 @media (max-width: 768px) {
     #twistAgainText {
-        font-size: 2rem;
+        font-size: 3rem;
     }
 }
 
