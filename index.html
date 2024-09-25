@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LET'S TWIST AGAIN!</title>
     <link rel="stylesheet" href="letsTwistAgain.css">
+
 </head>
 <body>
 
-    <h1>LET'S TWIST AGAIN!</h1>
+    <h1>ADD PLAYERS</h1>
 
     <form id="playerForm">
-        <input type="text" id="playerName" placeholder="Enter player name" required>
+        <input type="text" id="playerName" placeholder="Enter player name" required style="text-transform: uppercase;">
         <button type="submit">+</button>
     </form>
 
@@ -24,7 +25,7 @@
         <tbody></tbody>
     </table>
 
-    <button id="readyButton">READY!</button>
+    <button id="readyButton" disabled>READY!</button> <!-- Disabled until there are enough players -->
 
     <script>
         const maxPlayers = 7;
@@ -39,15 +40,18 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const playerName = playerNameInput.value.trim();
+            const playerName = playerNameInput.value.trim().toUpperCase(); // Convert to uppercase directly
 
-            if (playerName && players.length < maxPlayers) {
+            // Verifica se il nome è già presente nella lista
+            if (playerName && players.length < maxPlayers && !players.some(p => p.name === playerName)) {
                 const playerColor = colors[players.length];
-                players.push({ name: playerName.toUpperCase(), color: playerColor, points: 0 });
+                players.push({ name: playerName, color: playerColor, points: 0 });
                 updatePlayerTable();
 
+                // Abilito il bottone "READY!" se ci sono abbastanza giocatori
                 if (players.length >= minPlayers) {
                     readyButton.style.display = 'block';
+                    readyButton.disabled = false; // Abilita il bottone
                 }
 
                 playerNameInput.value = '';
@@ -56,7 +60,7 @@
 
         function updatePlayerTable() {
             playerTableBody.innerHTML = '';
-            players.forEach((player, index) => {
+            players.forEach((player) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `<td style="background-color: ${player.color}; color: white;">${player.name}</td>`;
                 playerTableBody.appendChild(row);
