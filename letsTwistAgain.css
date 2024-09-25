@@ -131,7 +131,14 @@ th:first-child {
     text-align: center;
 }
 
-/* GIF e testo LET'S TWIST AGAIN */
+#gif-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra la GIF verticalmente e orizzontalmente */
+    margin: 0; /* Rimuovi eventuali margini */
+    padding: 0; /* Rimuovi eventuali padding */
+}
+
 #twistGif {
     display: block;
     margin: 0 auto;
