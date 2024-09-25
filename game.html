@@ -10,7 +10,7 @@
 
   <div id="gif-container">
     <img id="twistGif" src="twist.gif" alt="Twist GIF" style="display:none">
-    <div id="twistAgainText"  style="display:none">>LET'S TWIST AGAIN!</div>
+    <div id="twistAgainText" style="display:none">LET'S TWIST AGAIN!</div>
 </div>
     <h1 id="turnMessage"></h1>
 
@@ -182,15 +182,14 @@ function removePoints(index) {
     }
 }
 function checkForWinner() {
-    console.log(players); 
     const winner = players.find(player => player.points >= maxPoints);
     if (winner) {
-        console.log(`${winner.name} ha vinto!`);  // Log di debug
         endGame(winner.name, winner.color);
     }
 }
 
 function endGame(winnerName, winnerColor) {
+    clearInterval(countdownInterval);
     countdown.style.display = 'block';  
     countdown.innerText = `${winnerName} WINS!`;
     countdown.style.color = winnerColor;
