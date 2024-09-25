@@ -105,7 +105,7 @@
             }
 
             #countdown {
-                font-size: 3rem;
+                font-size: 5rem;
             }
 
             .button {
@@ -126,7 +126,7 @@
 <body>
 
     <img id="twistGif" src="twist.gif" alt="Twist GIF"> <!-- GIF che viene mostrata quando parte audio A -->
-
+    
     <h1 id="turnMessage"></h1> <!-- Messaggio del turno corrente -->
 
     <div id="twistAgainText">LET'S TWIST AGAIN!</div>
@@ -219,11 +219,11 @@
         // Function to play random audio
         function playRandomAudio() {
             let random = Math.random();
-            if (random < 0.3) { // 30% chance
+            if (random < 0.35) { // 35% chance
                 currentAudio = document.getElementById("audioA");
                 twistAgainText.style.display = "block"; // Mostra LET'S TWIST AGAIN!
                 twistGif.style.display = "block"; // Mostra la GIF quando parte audio A
-            } else { // 70% chance
+            } else { // 65% chance
                 currentAudio = document.getElementById("audioB");
                 twistAgainText.style.display = "none";
                 twistGif.style.display = "none"; // Assicurati che la GIF scompaia se non è audio A
@@ -264,30 +264,39 @@
             if (active === "start") {
                 startButton.disabled = false;
                 startButton.classList.remove("disabled");
-
+                startButton.style.backgroundColor = 'red';
+              
                 pauseButton.disabled = true;
                 pauseButton.classList.add("disabled");
+                pauseButton.style.backgroundColor = 'gray';
 
                 nextButton.disabled = true;
                 nextButton.classList.add("disabled");
+                nextButton.style.backgroundColor = 'gray';
             } else if (active === "pause") {
                 startButton.disabled = true;
                 startButton.classList.add("disabled");
+                startButton.style.backgroundColor = 'gray';
 
                 pauseButton.disabled = false;
                 pauseButton.classList.remove("disabled");
+                pauseButton.style.backgroundColor = 'orange';
 
                 nextButton.disabled = true;
                 nextButton.classList.add("disabled");
+                nextButton.style.backgroundColor = 'gray';
             } else if (active === "next") {
                 startButton.disabled = true;
                 startButton.classList.add("disabled");
-
+                startButton.style.backgroundColor = 'gray';
+                
                 pauseButton.disabled = true;
                 pauseButton.classList.add("disabled");
+                pauseButton.style.backgroundColor = 'gray';
 
                 nextButton.disabled = false;
                 nextButton.classList.remove("disabled");
+                nextButton.style.backgroundColor = 'green';
             }
         }
 
@@ -302,4 +311,51 @@
                     <td>${index + 1}°</td>
                     <td style="background-color: ${player.color}; color: white;">${player.name}</td>
                     <td>
-                        <div
+                        <div class="points-buttons">
+                            ${player.points}
+                            <button onclick="addPoints(${index})">+</button>
+                            <button onclick="removePoints(${index})">-</button>
+                        </div>
+                    </td>
+                `;
+                scoreboardBody.appendChild(row);
+            });
+        }
+
+        // Function to add points manually
+        function addPoints(index) {
+            players[index].points++;
+            updateScoreboard();
+            checkForWinner();
+        }
+
+        // Function to remove points manually
+        function removePoints(index) {
+            if (players[index].points > 0) {
+                players[index].points--;
+            }
+            updateScoreboard();
+        }
+
+        // Function to check if there's a winner
+        function checkForWinner() {
+            const winner = players.find(player => player.points >= maxPoints);
+            if (winner) {
+                endGame(winner.name, winner.color);
+            }
+        }
+
+        // Function to end the game
+        function endGame(winnerName, winnerColor) {
+            countdown.innerText = `${winnerName} WINS!`;
+            countdown.style.color = winnerColor;
+            toggleButtons("none");
+        }
+
+        // Initialize the scoreboard and player turn on page load
+        updateScoreboard();
+        updatePlayerTurn();
+    </script>
+
+</body>
+</html>
