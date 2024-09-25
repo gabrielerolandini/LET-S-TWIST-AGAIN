@@ -59,10 +59,10 @@
         #twistGif {
             display: none;
             position: absolute;
-            top: 0;
+            top: 30;
             left: 50%;
             transform: translateX(-50%);
-            width: 300px;
+            width: 200px;
         }
 
         #twistAgainText {
@@ -285,6 +285,7 @@
                 nextButton.disabled = true;
                 nextButton.classList.add("disabled");
                 nextButton.style.backgroundColor = 'gray';
+                twistGif.style.display = "none"; // Assicurati che la GIF scompaia
             } else if (active === "next") {
                 startButton.disabled = true;
                 startButton.classList.add("disabled");
@@ -297,6 +298,7 @@
                 nextButton.disabled = false;
                 nextButton.classList.remove("disabled");
                 nextButton.style.backgroundColor = 'green';
+                twistGif.style.display = "none"; // Assicurati che la GIF scompaia
             }
         }
 
