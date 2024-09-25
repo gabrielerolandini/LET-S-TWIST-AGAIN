@@ -161,9 +161,9 @@
         const maxPoints = 10;
         let currentPlayerIndex = 0;
 
-        // Get players from localStorage
+        // Get players from localStorage and set a fixed players order
         const players = JSON.parse(localStorage.getItem('players'));
-        const playersStart = JSON.parse(localStorage.getItem('players'));
+        const playersOrder = [...players]; // Fisso l'ordine iniziale dei giocatori
 
         // DOM Elements
         const startButton = document.getElementById("startButton");
@@ -202,6 +202,9 @@
 
         // Function to start the countdown
         function startCountdown() {
+            // Clear any previous interval before starting a new one
+            clearInterval(countdownInterval);
+
             countdown.style.display = 'block';
             countdownValue = 20;
             countdown.innerText = countdownValue;
@@ -211,7 +214,7 @@
                 if (countdownValue > 0) {
                     countdown.innerText = countdownValue;
                 } else {
-                    clearInterval(countdownInterval);
+                    clearInterval(countdownInterval); // Clear interval when countdown ends
                     countdown.innerText = "STOP!";
                     toggleButtons("next");
                 }
@@ -245,10 +248,10 @@
             isPlaying = false;
         }
 
-        // Function to update the player's turn
+        // Function to update the player's turn using the fixed playersOrder
         function updatePlayerTurn() {
-            currentPlayerIndex = (currentPlayerIndex + 1) % playersStart.length;
-            const currentPlayer = playersStart[currentPlayerIndex];
+            currentPlayerIndex = (currentPlayerIndex + 1) % playersOrder.length;
+            const currentPlayer = playersOrder[currentPlayerIndex];
             turnMessage.textContent = `${currentPlayer.name}, IT'S YOUR TURN!`;
             turnMessage.style.color = currentPlayer.color;
         }
@@ -307,7 +310,8 @@
 
         // Initialize the scoreboard and player turn on page load
         updateScoreboard();
-        updatePlayerTurn();
+        turnMessage.textContent = `${playersOrder[0].name}, IT'S YOUR TURN!`; // Mostra subito il giocatore 1
+        turnMessage.style.color = playersOrder[0].color;
     </script>
 
 </body>
