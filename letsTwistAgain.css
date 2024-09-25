@@ -120,6 +120,13 @@ th:first-child {
     display: none;
 }
 
+#countdown-container {
+    min-height: 100px; /* Aggiungi spazio sufficiente per il countdown */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #countdown {
     font-size: 5rem;
     margin-bottom: 20px;
