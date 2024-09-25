@@ -142,27 +142,26 @@
             turnMessage.style.color = currentPlayer.color;
         }
 
-        // Function to update scoreboard
-        function updateScoreboard() {
-            players.sort((a, b) => b.points - a.points);
-            const scoreboardBody = document.getElementById("scoreboardBody");
-            scoreboardBody.innerHTML = '';
-            players.forEach((player, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}°</td>
-                    <td style="background-color: ${player.color}; color: white;">${player.name}</td>
-                    <td>
-                        <div class="points-buttons">
-                            <button onclick="addPoints(${index})">+</button>
-                            ${player.points}
-                            <button onclick="removePoints(${index})">-</button>
-                        </div>
-                    </td>
-                `;
-                scoreboardBody.appendChild(row);
-            });
-        }
+function updateScoreboard() {
+    const sortedPlayers = [...players].sort((a, b) => b.points - a.points); // Crea una copia ordinata per la classifica
+    const scoreboardBody = document.getElementById("scoreboardBody");
+    scoreboardBody.innerHTML = '';
+    sortedPlayers.forEach((player, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${index + 1}°</td>
+            <td style="background-color: ${player.color}; color: white;">${player.name}</td>
+            <td>
+                <div class="points-buttons">
+                    <button onclick="addPoints(${players.indexOf(player)})">+</button>
+                    ${player.points}
+                    <button onclick="removePoints(${players.indexOf(player)})">-</button>
+                </div>
+            </td>
+        `;
+        scoreboardBody.appendChild(row);
+    });
+}
 
 function addPoints(index) {
     players[index].points++;
