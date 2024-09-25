@@ -59,10 +59,11 @@
         #twistGif {
             display: none;
             position: absolute;
-            top: 30;
+            top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
+            width: 250px;
+            padding-top: 3em;
         }
 
         #twistAgainText {
@@ -162,7 +163,7 @@
         let countdownInterval = null;
         let countdownValue = 20;
         const maxPoints = 10;
-        let currentPlayerIndex = -1;
+        let currentPlayerIndex = 0;
 
         // Get players from localStorage
         const playersStart = JSON.parse(localStorage.getItem('players'));
