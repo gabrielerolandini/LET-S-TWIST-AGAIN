@@ -2,8 +2,8 @@
 body {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    justify-content: center; /* Centratura verticale */
+    align-items: center; /* Centratura orizzontale */
     height: 100vh;
     margin: 0;
     background-color: #f0f0f0;
@@ -40,6 +40,7 @@ button, .button {
     padding: 10px;
     font-size: 1rem;
     cursor: pointer;
+    display: block; /* Per garantire che i bottoni siano centrati */
 }
 
 @media (max-width: 768px) {
@@ -63,9 +64,9 @@ button, .button {
 /* Tabella */
 table {
     margin-top: 20px;
-    border-collapse: collapse;
     margin-left: auto;
     margin-right: auto;
+    border-collapse: collapse;
     width: 300px;
 }
 
@@ -134,7 +135,7 @@ th:first-child {
 #twistGif {
     display: none;
     position: absolute;
-    top: 10;
+    top: 1rem;
     left: 50%;
     transform: translateX(-50%);
     width: 250px;
