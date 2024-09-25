@@ -41,6 +41,7 @@
     <audio id="audioB" src="countdown.mp3"></audio>
 
     <script>
+        let currentAudio = null;
         let countdownInterval = null;
         let countdownValue = 20;
         const maxPoints = 10;
@@ -106,7 +107,7 @@
         // Function to play random audio
         function playRandomAudio() {
             const random = Math.random();
-            const currentAudio = (random < 0.4) ? document.getElementById("audioA") : document.getElementById("audioB");
+            currentAudio = (random < 0.4) ? document.getElementById("audioA") : document.getElementById("audioB");
 
             twistAgainText.style.display = (random < 0.4) ? "block" : "none";
             twistGif.style.display = (random < 0.4) ? "block" : "none";
