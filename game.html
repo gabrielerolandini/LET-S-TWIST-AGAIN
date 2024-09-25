@@ -220,11 +220,11 @@
         // Function to play random audio
         function playRandomAudio() {
             let random = Math.random();
-            if (random < 0.35) { // 35% chance
+            if (random < 0.38) {
                 currentAudio = document.getElementById("audioA");
                 twistAgainText.style.display = "block"; // Mostra LET'S TWIST AGAIN!
                 twistGif.style.display = "block"; // Mostra la GIF quando parte audio A
-            } else { // 65% chance
+            } else {
                 currentAudio = document.getElementById("audioB");
                 twistAgainText.style.display = "none";
                 twistGif.style.display = "none"; // Assicurati che la GIF scompaia se non è audio A
