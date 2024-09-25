@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LET'S TWIST AGAIN!</title>
-     <link rel="stylesheet" href="letsTwistAgain.css">
+    <link rel="stylesheet" href="letsTwistAgain.css">
 </head>
 <body>
 
-  <div id="gif-container">
-    <img id="twistGif" src="twist.gif" alt="Twist GIF" style="display:none">
-    <div id="twistAgainText" style="display:none">LET'S TWIST AGAIN!</div>
-</div>
+    <div id="gif-container">
+        <img id="twistGif" src="twist.gif" alt="Twist GIF" style="display:none">
+        <div id="twistAgainText" style="display:none">LET'S TWIST AGAIN!</div>
+    </div>
+
     <h1 id="turnMessage"></h1>
 
     <div class="button-container">
@@ -19,7 +20,7 @@
         <button id="nextButton" class="button">NEXT</button>
     </div>
 
-    <div id="countdown-container"> <!-- Div aggiunto per lo spazio -->
+    <div id="countdown-container">
         <div id="countdown">20</div>
     </div>
 
@@ -36,14 +37,10 @@
         </table>
     </div>
 
-    </div>
-
     <audio id="audioA" src="lets_twist_again.mp3"></audio>
     <audio id="audioB" src="countdown.mp3"></audio>
 
     <script>
-        let isPlaying = false;
-        let currentAudio = null;
         let countdownInterval = null;
         let countdownValue = 20;
         const maxPoints = 10;
@@ -51,7 +48,7 @@
 
         // Get players from localStorage and set a fixed players order
         const players = JSON.parse(localStorage.getItem('players'));
-        const playersOrder = [...players]; // Fisso l'ordine iniziale dei giocatori
+        const playersOrder = [...players];
 
         // DOM Elements
         const startButton = document.getElementById("startButton");
@@ -63,17 +60,8 @@
 
         // Function to toggle button visibility
         function toggleButtons(active) {
-            if (active === "start") {
-                startButton.style.display = 'block';
-                nextButton.style.display = 'none';
-            } else if (active === "next") {
-                startButton.style.display = 'none';
-                nextButton.style.display = 'block';
-            }
-            else if (active === "none") {
-                startButton.style.display = 'none';
-                nextButton.style.display = 'none';
-            }
+            startButton.style.display = (active === "start") ? 'block' : 'none';
+            nextButton.style.display = (active === "next") ? 'block' : 'none';
         }
 
         // Start button functionality
@@ -94,9 +82,7 @@
 
         // Function to start the countdown
         function startCountdown() {
-            // Clear any previous interval before starting a new one
             clearInterval(countdownInterval);
-
             countdown.style.display = 'block';
             countdownValue = 20;
             countdown.innerText = countdownValue;
@@ -106,7 +92,7 @@
                 if (countdownValue > 0) {
                     countdown.innerText = countdownValue;
                 } else {
-                    clearInterval(countdownInterval); // Clear interval when countdown ends
+                    clearInterval(countdownInterval);
                     countdown.innerText = "STOP!";
                     toggleButtons("next");
                 }
@@ -115,29 +101,19 @@
 
         // Function to play random audio
         function playRandomAudio() {
-            let random = Math.random();
-            if (random < 0.4) {
-                currentAudio = document.getElementById("audioA");
-                twistAgainText.style.display = "block";
-                twistGif.style.display = "block";
-            } else {
-                currentAudio = document.getElementById("audioB");
-                twistAgainText.style.display = "none";
-                twistGif.style.display = "none";
-            }
+            const random = Math.random();
+            const currentAudio = (random < 0.4) ? document.getElementById("audioA") : document.getElementById("audioB");
+
+            twistAgainText.style.display = (random < 0.4) ? "block" : "none";
+            twistGif.style.display = (random < 0.4) ? "block" : "none";
             currentAudio.play();
-            isPlaying = true;
         }
 
         // Function to reset the page state
         function resetState() {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
+            clearInterval(countdownInterval);
             countdown.innerText = 20;
             countdown.style.display = 'none';
-            isPlaying = false;
         }
 
         // Function to update the player's turn using the fixed playersOrder
@@ -148,57 +124,63 @@
             turnMessage.style.color = currentPlayer.color;
         }
 
-function updateScoreboard() {
-    const sortedPlayers = [...players].sort((a, b) => b.points - a.points); // Crea una copia ordinata per la classifica
-    const scoreboardBody = document.getElementById("scoreboardBody");
-    scoreboardBody.innerHTML = '';
-    sortedPlayers.forEach((player, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${index + 1}°</td>
-            <td style="background-color: ${player.color}; color: white;">${player.name}</td>
-            <td>
-                <div class="points-buttons">
-                    <button onclick="addPoints(${players.indexOf(player)})">+</button>
-                    ${player.points}
-                    <button onclick="removePoints(${players.indexOf(player)})">-</button>
-                </div>
-            </td>
-        `;
-        scoreboardBody.appendChild(row);
-    });
-    checkForWinner();
-}
+        // Function to update scoreboard
+        function updateScoreboard() {
+            const sortedPlayers = [...players].sort((a, b) => b.points - a.points);
+            const scoreboardBody = document.getElementById("scoreboardBody");
+            scoreboardBody.innerHTML = '';
 
-function addPoints(index) {
-    players[index].points++;
-    updateScoreboard();
-}
+            sortedPlayers.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}°</td>
+                    <td style="background-color: ${player.color}; color: white;">${player.name}</td>
+                    <td>
+                        <div class="points-buttons">
+                            <button onclick="addPoints(${players.indexOf(player)})">+</button>
+                            ${player.points}
+                            <button onclick="removePoints(${players.indexOf(player)})">-</button>
+                        </div>
+                    </td>
+                `;
+                scoreboardBody.appendChild(row);
+            });
+            checkForWinner();
+        }
 
-function removePoints(index) {
-    if (players[index].points > 0) {
-        players[index].points--;
+        // Function to add points manually
+        function addPoints(index) {
+            players[index].points++;
+            updateScoreboard();
+        }
+
+        // Function to remove points manually
+        function removePoints(index) {
+            if (players[index].points > 0) {
+                players[index].points--;
+                updateScoreboard();
+            }
+        }
+
+        // Function to check if there's a winner
+        function checkForWinner() {
+            const winner = players.find(player => player.points >= maxPoints);
+            if (winner) {
+                endGame(winner.name, winner.color);
+            }
+        }
+
+        // Function to end the game
+        function endGame(winnerName, winnerColor) {
+            clearInterval(countdownInterval);
+            countdown.innerText = `${winnerName} WINS!`;
+            countdown.style.color = winnerColor;
+            toggleButtons("none");
+        }
+
+        // Initialize the scoreboard and player turn on page load
         updateScoreboard();
-    }
-}
-function checkForWinner() {
-    const winner = players.find(player => player.points >= maxPoints);
-    if (winner) {
-        endGame(winner.name, winner.color);
-    }
-}
-
-function endGame(winnerName, winnerColor) {
-    clearInterval(countdownInterval);
-    countdown.style.display = 'block';  
-    countdown.innerText = `${winnerName} WINS!`;
-    countdown.style.color = winnerColor;
-    toggleButtons("none");
-}
-
-      
-        updateScoreboard();
-        turnMessage.textContent = `${playersOrder[0].name}, IT'S YOUR TURN!`; // Mostra subito il giocatore 1
+        turnMessage.textContent = `${playersOrder[0].name}, IT'S YOUR TURN!`;
         turnMessage.style.color = playersOrder[0].color;
     </script>
 
