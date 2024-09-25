@@ -202,10 +202,10 @@
         // Function to play random audio
         function playRandomAudio() {
             let random = Math.random();
-            if (random < 0.3) { // 30% chance
+            if (random < 0.35) { // 35% chance
                 currentAudio = document.getElementById("audioA");
                 twistAgainText.style.display = "block"; // Mostra LET'S TWIST AGAIN!
-            } else { // 70% chance
+            } else { // 65% chance
                 currentAudio = document.getElementById("audioB");
                 twistAgainText.style.display = "none";
             }
