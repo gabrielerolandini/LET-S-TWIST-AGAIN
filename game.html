@@ -75,6 +75,10 @@
         nextButton.addEventListener("click", function () {
             twistAgainText.style.display = "none";
             twistGif.style.display = "none";
+            if (currentAudio && !currentAudio.paused) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0; // Resetta l'audio
+            }
             updatePlayerTurn();
             resetState();
             toggleButtons("start");
