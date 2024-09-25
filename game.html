@@ -34,11 +34,15 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
+            position: absolute;
+            width: 100%;
+            height: 100%;
         }
 
-        .button.disabled {
-            background-color: lightgray;
-            cursor: not-allowed;
+        .button-container {
+            position: relative;
+            width: 150px;
+            height: 50px;
         }
 
         #startButton {
@@ -49,6 +53,7 @@
         #nextButton {
             background-color: green;
             color: white;
+            display: none;
         }
 
         #twistGif {
@@ -57,7 +62,6 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            transform: translateY(50%);
             width: 250px;
         }
 
@@ -121,13 +125,13 @@
 </head>
 <body>
 
-    <img id="twistGif" src="twist.gif" alt="Twist GIF"> <!-- GIF che viene mostrata quando parte audio A -->
+    <img id="twistGif" src="twist.gif" alt="Twist GIF">
     <div id="twistAgainText">LET'S TWIST AGAIN!</div>
-    <h1 id="turnMessage"></h1> <!-- Messaggio del turno corrente -->
+    <h1 id="turnMessage"></h1>
 
-    <div>
+    <div class="button-container">
         <button id="startButton" class="button">START</button>
-        <button id="nextButton" class="button disabled" disabled>NEXT</button>
+        <button id="nextButton" class="button">NEXT</button>
     </div>
 
     <div id="countdown">20</div>
@@ -159,6 +163,7 @@
 
         // Get players from localStorage
         const players = JSON.parse(localStorage.getItem('players'));
+        const playersStart = JSON.parse(localStorage.getItem('players'));
 
         // DOM Elements
         const startButton = document.getElementById("startButton");
@@ -167,6 +172,17 @@
         const turnMessage = document.getElementById("turnMessage");
         const twistAgainText = document.getElementById("twistAgainText");
         const twistGif = document.getElementById("twistGif");
+
+        // Function to toggle button visibility
+        function toggleButtons(active) {
+            if (active === "start") {
+                startButton.style.display = 'block';
+                nextButton.style.display = 'none';
+            } else if (active === "next") {
+                startButton.style.display = 'none';
+                nextButton.style.display = 'block';
+            }
+        }
 
         // Start button functionality
         startButton.addEventListener("click", function () {
@@ -177,10 +193,10 @@
 
         // Next button functionality
         nextButton.addEventListener("click", function () {
-            twistAgainText.style.display = "none"; // Nascondi LET'S TWIST AGAIN! dopo aver cliccato
-            twistGif.style.display = "none"; // Nascondi la GIF dopo aver cliccato su un bottone
+            twistAgainText.style.display = "none";
+            twistGif.style.display = "none";
             updatePlayerTurn();
-            resetState(); // Reset the page to the initial state
+            resetState();
             toggleButtons("start");
         });
 
@@ -190,16 +206,16 @@
             countdownValue = 20;
             countdown.innerText = countdownValue;
 
-            countdownInterval = setInterval(function() {
+            countdownInterval = setInterval(function () {
                 countdownValue--;
                 if (countdownValue > 0) {
                     countdown.innerText = countdownValue;
                 } else {
                     clearInterval(countdownInterval);
                     countdown.innerText = "STOP!";
-                    toggleButtons("next"); // Attiva il bottone NEXT
+                    toggleButtons("next");
                 }
-            }, 1000); // Countdown every second
+            }, 1000);
         }
 
         // Function to play random audio
@@ -207,22 +223,22 @@
             let random = Math.random();
             if (random < 0.38) {
                 currentAudio = document.getElementById("audioA");
-                twistAgainText.style.display = "block"; // Mostra LET'S TWIST AGAIN!
-                twistGif.style.display = "block"; // Mostra la GIF quando parte audio A
+                twistAgainText.style.display = "block";
+                twistGif.style.display = "block";
             } else {
                 currentAudio = document.getElementById("audioB");
                 twistAgainText.style.display = "none";
-                twistGif.style.display = "none"; // Assicurati che la GIF scompaia se non è audio A
+                twistGif.style.display = "none";
             }
             currentAudio.play();
             isPlaying = true;
         }
 
-        // Function to reset the state of the page
+        // Function to reset the page state
         function resetState() {
             if (currentAudio) {
                 currentAudio.pause();
-                currentAudio.currentTime = 0; // Reset audio
+                currentAudio.currentTime = 0;
             }
             countdown.innerText = 20;
             countdown.style.display = 'none';
@@ -231,31 +247,10 @@
 
         // Function to update the player's turn
         function updatePlayerTurn() {
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-            const currentPlayer = players[currentPlayerIndex];
+            currentPlayerIndex = (currentPlayerIndex + 1) % playersStart.length;
+            const currentPlayer = playersStart[currentPlayerIndex];
             turnMessage.textContent = `${currentPlayer.name}, IT'S YOUR TURN!`;
             turnMessage.style.color = currentPlayer.color;
-        }
-
-        // Function to toggle button states
-        function toggleButtons(active) {
-            if (active === "start") {
-                startButton.disabled = false;
-                startButton.classList.remove("disabled");
-                startButton.style.backgroundColor = 'red';
-
-                nextButton.disabled = true;
-                nextButton.classList.add("disabled");
-                nextButton.style.backgroundColor = 'gray';
-            } else if (active === "next") {
-                startButton.disabled = true;
-                startButton.classList.add("disabled");
-                startButton.style.backgroundColor = 'gray';
-
-                nextButton.disabled = false;
-                nextButton.classList.remove("disabled");
-                nextButton.style.backgroundColor = 'green';
-            }
         }
 
         // Function to update scoreboard
