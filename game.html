@@ -68,6 +68,10 @@
                 startButton.style.display = 'none';
                 nextButton.style.display = 'block';
             }
+            else if (active === "none") {
+                startButton.style.display = 'none';
+                nextButton.style.display = 'none';
+            }
         }
 
         // Start button functionality
@@ -177,7 +181,6 @@ function removePoints(index) {
 }
 function checkForWinner() {
     const winner = players.find(player => player.points >= maxPoints);
-    console.log(players);  // Log per diagnosticare i giocatori e i loro punti
     if (winner) {
         endGame(winner.name, winner.color);
     }
