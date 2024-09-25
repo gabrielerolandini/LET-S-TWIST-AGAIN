@@ -41,6 +41,8 @@ button, .button {
     font-size: 1rem;
     cursor: pointer;
     display: block; /* Per garantire che i bottoni siano centrati */
+    border: none;
+    border-radius: 5px;
 }
 
 @media (max-width: 768px) {
@@ -55,10 +57,8 @@ button, .button {
     padding: 10px 20px;
     font-size: 1.2rem;
     display: none;
-    cursor: pointer;
     background-color: #28a745;
     color: white;
-    border: none;
 }
 
 /* Tabella */
@@ -104,9 +104,6 @@ th:first-child {
     position: absolute;
     width: 100%;
     height: 100%;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
 }
 
 #startButton {
@@ -121,7 +118,7 @@ th:first-child {
 }
 
 #countdown-container {
-    min-height: 100px; /* Aggiungi spazio sufficiente per il countdown */
+    min-height: 100px; /* Spazio sufficiente per il countdown */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -130,16 +127,11 @@ th:first-child {
 #countdown {
     font-size: 5rem;
     color: black;
-    display: none; 
+    display: none;
     text-align: center;
 }
 
-@media (max-width: 768px) {
-    #countdown {
-        font-size: 5rem;
-    }
-}
-
+/* GIF e testo LET'S TWIST AGAIN */
 #twistGif {
     display: block;
     margin: 0 auto;
@@ -151,26 +143,28 @@ th:first-child {
     font-size: 3rem;
     color: red;
     text-align: center;
-    margin-top: 10px; 
+    margin-top: 10px;
 }
 
 @media (max-width: 768px) {
     #twistGif {
-        width: 250px;
+        width: 200px; /* Riduci dimensione della GIF per schermi più piccoli */
     }
-}
 
-
-@media (max-width: 768px) {
     #twistAgainText {
-        font-size: 3rem;
+        font-size: 2rem;
+    }
+
+    #countdown {
+        font-size: 3rem; /* Riduci la dimensione del countdown su schermi piccoli */
     }
 }
 
+/* Scoreboard */
 #scoreboard {
     margin-top: 20px;
     width: 60%;
-    display: flex; 
-    justify-content: center; 
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
