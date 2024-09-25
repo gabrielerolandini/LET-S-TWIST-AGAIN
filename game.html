@@ -158,6 +158,7 @@
         let currentPlayerIndex = 0;
 
         // Get players from localStorage
+        const players = JSON.parse(localStorage.getItem('players'));
         const playersStart = JSON.parse(localStorage.getItem('players'));
 
         // DOM Elements
