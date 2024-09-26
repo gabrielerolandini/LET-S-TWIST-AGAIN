@@ -48,15 +48,6 @@ button, .button {
     }
 }
 
-#readyButton {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    display: none;
-    background-color: #28a745;
-    color: white;
-}
-
 table {
     margin-top: 20px;
     margin-left: auto;
@@ -125,23 +116,11 @@ th:first-child {
     text-align: center;
 }
 
-#gif-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 300px;
-    margin-top: 10px;
-    overflow: hidden;
-}
 
 #twistGif {
     width: 250px;
-    visibility: hidden;
 }
 
-#twistGif.show {
-    visibility: visible;
-}
 
 @media (max-width: 768px) {
     #twistGif {
