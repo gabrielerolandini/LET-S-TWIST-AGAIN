@@ -119,6 +119,7 @@ th:first-child {
 
 #twistGif {
     width: 250px;
+    transform: translateY(-50px);
 }
 
 
