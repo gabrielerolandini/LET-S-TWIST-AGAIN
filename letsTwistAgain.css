@@ -32,7 +32,6 @@ input {
     text-transform: uppercase;
 }
 
-/* Stili per i bottoni */
 button, .button {
     padding: 10px;
     font-size: 1rem;
@@ -58,7 +57,6 @@ button, .button {
     color: white;
 }
 
-/* Tabella */
 table {
     margin-top: 20px;
     margin-left: auto;
