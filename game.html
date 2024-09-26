@@ -95,9 +95,10 @@
 
         function playRandomAudio() {
             const random = Math.random();
-            currentAudio = (random < 0.4) ? document.getElementById("audioA") : document.getElementById("audioB");
-            twistGif.style.display = (random < 0.4) ? "block" : "none";
-            currentAudio.playbackRate = (random < 0.4) ? 1.1 : 1;
+            let twist = random < 0.4;
+            currentAudio = twist ? document.getElementById("audioA") : document.getElementById("audioB");
+            toggleGiftwist);
+            currentAudio.playbackRate = twist ? 1.1 : 1;
             currentAudio.play();
         }
 
@@ -146,6 +147,14 @@
             if (players[index].points > 0) {
                 players[index].points--;
                 updateScoreboard();
+            }
+        }
+
+        function toggleGif(show) {
+            if (show) {
+                twistGif.classList.add('show'); // Mostra la GIF
+            } else {
+                twistGif.classList.remove('show'); // Nasconde la GIF
             }
         }
 
