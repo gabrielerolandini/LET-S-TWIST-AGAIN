@@ -97,8 +97,8 @@
             const random = Math.random();
             let twist = random < 0.4;
             currentAudio = twist ? document.getElementById("audioA") : document.getElementById("audioB");
-            toggleGif(twist);
-            currentAudio.playbackRate = twist ? 1.1 : 1;
+            twistGif.style.display = twist ? 'block' : 'none';
+            currentAudio.playbackRate = twist ? 1.05 : 1;
             currentAudio.play();
         }
 
@@ -147,14 +147,6 @@
             if (players[index].points > 0) {
                 players[index].points--;
                 updateScoreboard();
-            }
-        }
-
-        function toggleGif(show) {
-            if (show) {
-                twistGif.classList.add('show'); // Mostra la GIF
-            } else {
-                twistGif.classList.remove('show'); // Nasconde la GIF
             }
         }
 
