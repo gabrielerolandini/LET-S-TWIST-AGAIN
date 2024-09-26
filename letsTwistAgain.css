@@ -1,16 +1,14 @@
-/* Stili comuni per entrambe le pagine */
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centratura verticale */
-    align-items: center; /* Centratura orizzontale */
+    justify-content: center;
+    align-items: center;
     height: 100vh;
     margin: 0;
     background-color: #f0f0f0;
     text-align: center;
 }
 
-/* Stili per i titoli */
 h1, #turnMessage {
     font-size: 2.5rem;
     margin-bottom: 20px;
@@ -22,7 +20,6 @@ h1, #turnMessage {
     }
 }
 
-/* Stili per il form in index.html */
 form {
     display: flex;
     align-items: center;
@@ -40,7 +37,7 @@ button, .button {
     padding: 10px;
     font-size: 1rem;
     cursor: pointer;
-    display: block; /* Per garantire che i bottoni siano centrati */
+    display: block;
     border: none;
     border-radius: 5px;
 }
@@ -93,7 +90,6 @@ th:first-child {
     gap: 10px;
 }
 
-/* Specifico per game.html */
 .button-container {
     position: relative;
     width: 150px;
@@ -118,7 +114,7 @@ th:first-child {
 }
 
 #countdown-container {
-    min-height: 80px; /* Spazio sufficiente per il countdown */
+    min-height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -134,9 +130,7 @@ th:first-child {
 #gif-container {
     display: flex;
     justify-content: center;
-    align-items: center; /* Centra la GIF verticalmente e orizzontalmente */
-    margin: 0; /* Rimuovi eventuali margini */
-    padding: 0; /* Rimuovi eventuali padding */
+    align-items: center;
 }
 
 #twistGif {
@@ -147,15 +141,14 @@ th:first-child {
 
 @media (max-width: 768px) {
     #twistGif {
-        width: 200px; /* Riduci dimensione della GIF per schermi più piccoli */
+        width: 200px;
     }
 
     #countdown {
-        font-size: 3rem; /* Riduci la dimensione del countdown su schermi piccoli */
+        font-size: 3rem;
     }
 }
 
-/* Scoreboard */
 #scoreboard {
     margin-top: 10px;
     width: 60%;
