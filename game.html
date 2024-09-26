@@ -91,7 +91,7 @@
 
         function playRandomAudio() {
             const random = Math.random();
-            let twist = random < 0.4;
+            let twist = random < 0.35;
             currentAudio = document.getElementById(twist ? "audioA" : "audioB");
             twistGif.style.display = twist ? 'block' : 'none';
             currentAudio.playbackRate = twist ? 1.05 : 1;
