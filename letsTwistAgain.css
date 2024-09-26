@@ -103,10 +103,14 @@ th:first-child {
 }
 
 #readyButton {
-    background-color: green;
-    color: white;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
     display: none;
-    padding-top: 10px;
+    cursor: pointer;
+    background-color: #28a745;
+    color: white;
+    border: none;
 }
 
 #countdown-container {
