@@ -25,7 +25,7 @@
         <tbody></tbody>
     </table>
 
-    <button id="readyButton" disabled>READY!</button> <!-- Disabled until there are enough players -->
+    <button id="readyButton" disabled>READY!</button>
 
     <script>
         const maxPlayers = 7;
@@ -40,20 +40,15 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const playerName = playerNameInput.value.trim().toUpperCase(); // Convert to uppercase directly
+            const playerName = playerNameInput.value.trim().toUpperCase();
 
-            // Verifica se il nome è già presente nella lista
             if (playerName && players.length < maxPlayers && !players.some(p => p.name === playerName)) {
                 const playerColor = colors[players.length];
                 players.push({ name: playerName, color: playerColor, points: 0 });
                 updatePlayerTable();
-
-                // Abilito il bottone "READY!" se ci sono abbastanza giocatori
                 if (players.length >= minPlayers) {
                     readyButton.style.display = 'block';
-                    readyButton.disabled = false; // Abilita il bottone
                 }
-
                 playerNameInput.value = '';
             }
         });
@@ -69,7 +64,7 @@
 
         readyButton.addEventListener('click', function() {
             localStorage.setItem('players', JSON.stringify(players));
-            window.location.href = 'game.html'; // Redirect to the game page
+            window.location.href = 'game.html'; 
         });
     </script>
 
