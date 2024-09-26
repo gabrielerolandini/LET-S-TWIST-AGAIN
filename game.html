@@ -95,6 +95,7 @@
             currentAudio = document.getElementById(twist ? "audioA" : "audioB");
             twistGif.style.display = twist ? 'block' : 'none';
             currentAudio.playbackRate = twist ? 1.05 : 1;
+            setTimeout(function() {}, twist ? 1000: 0);
             currentAudio.play();
         }
 
