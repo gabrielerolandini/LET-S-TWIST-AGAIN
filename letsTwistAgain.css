@@ -118,7 +118,7 @@ th:first-child {
 }
 
 #countdown-container {
-    min-height: 100px; /* Spazio sufficiente per il countdown */
+    min-height: 80px; /* Spazio sufficiente per il countdown */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -169,7 +169,7 @@ th:first-child {
 
 /* Scoreboard */
 #scoreboard {
-    margin-top: 20px;
+    margin-top: 10px;
     width: 60%;
     display: flex;
     justify-content: center;
