@@ -142,9 +142,9 @@
                     <td style="background-color: ${player.color}; color: white;">${player.name}</td>
                     <td>
                         <div class="points-buttons">
-                            <button onclick="addPoints(${players.indexOf(player)})">+</button>
-                            ${player.points}
                             <button onclick="removePoints(${players.indexOf(player)})">-</button>
+                            ${player.points}
+                            <button onclick="addPoints(${players.indexOf(player)})">+</button>
                         </div>
                     </td>
                 `;
