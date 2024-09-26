@@ -45,32 +45,25 @@
         let countdownValue = 20;
         const maxPoints = 10;
         let currentPlayerIndex = 0;
-
-        // Get players from localStorage and set a fixed players order
         const players = JSON.parse(localStorage.getItem('players'));
         const playersOrder = [...players];
-
-        // DOM Elements
         const startButton = document.getElementById("startButton");
         const nextButton = document.getElementById("nextButton");
         const countdown = document.getElementById("countdown");
         const turnMessage = document.getElementById("turnMessage");
         const twistGif = document.getElementById("twistGif");
 
-        // Function to toggle button visibility
         function toggleButtons(active) {
             startButton.style.display = (active === "start") ? 'block' : 'none';
             nextButton.style.display = (active === "next") ? 'block' : 'none';
         }
 
-        // Start button functionality
         startButton.addEventListener("click", function () {
             startCountdown();
             playRandomAudio();
             toggleButtons("next");
         });
 
-        // Next button functionality
         nextButton.addEventListener("click", function () {
             twistGif.style.display = "none";
             if (currentAudio && !currentAudio.paused) {
@@ -82,7 +75,6 @@
             toggleButtons("start");
         });
 
-        // Function to start the countdown
         function startCountdown() {
             clearInterval(countdownInterval);
             countdown.style.display = 'block';
@@ -101,23 +93,20 @@
             }, 1000);
         }
 
-        // Function to play random audio
         function playRandomAudio() {
             const random = Math.random();
             currentAudio = (random < 0.4) ? document.getElementById("audioA") : document.getElementById("audioB");
             twistGif.style.display = (random < 0.4) ? "block" : "none";
-            currentAudio.playbackRate = (random < 0.4) ? 1.2 : 1;
+            currentAudio.playbackRate = (random < 0.4) ? 1.1 : 1;
             currentAudio.play();
         }
 
-        // Function to reset the page state
         function resetState() {
             clearInterval(countdownInterval);
             countdown.innerText = 20;
             countdown.style.display = 'none';
         }
 
-        // Function to update the player's turn using the fixed playersOrder
         function updatePlayerTurn() {
             currentPlayerIndex = (currentPlayerIndex + 1) % playersOrder.length;
             const currentPlayer = playersOrder[currentPlayerIndex];
@@ -125,7 +114,6 @@
             turnMessage.style.color = currentPlayer.color;
         }
 
-        // Function to update scoreboard
         function updateScoreboard() {
             const sortedPlayers = [...players].sort((a, b) => b.points - a.points);
             const scoreboardBody = document.getElementById("scoreboardBody");
@@ -149,13 +137,11 @@
             checkForWinner();
         }
 
-        // Function to add points manually
         function addPoints(index) {
             players[index].points++;
             updateScoreboard();
         }
 
-        // Function to remove points manually
         function removePoints(index) {
             if (players[index].points > 0) {
                 players[index].points--;
@@ -163,7 +149,6 @@
             }
         }
 
-        // Function to check if there's a winner
         function checkForWinner() {
             const winner = players.find(player => player.points >= maxPoints);
             if (winner) {
@@ -171,7 +156,6 @@
             }
         }
 
-        // Function to end the game
         function endGame(winnerName, winnerColor) {
             clearInterval(countdownInterval);
             countdown.innerText = `${winnerName} WINS!`;
@@ -179,7 +163,6 @@
             toggleButtons("none");
         }
 
-        // Initialize the scoreboard and player turn on page load
         updateScoreboard();
         turnMessage.textContent = `${playersOrder[0].name}, IT'S YOUR TURN!`;
         turnMessage.style.color = playersOrder[0].color;
