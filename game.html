@@ -8,10 +8,7 @@
 </head>
 <body>
 
-    <div id="gif-container">
-        <img id="twistGif" src="twist.gif" alt="Twist GIF" style="display:none">
-    </div>
-
+    <img id="twistGif" src="twist.gif" alt="Twist GIF" style="display:none">
     <h1 id="turnMessage"></h1>
 
     <div class="button-container">
@@ -68,7 +65,7 @@
             twistGif.style.display = "none";
             if (currentAudio && !currentAudio.paused) {
                 currentAudio.pause();
-                currentAudio.currentTime = 0; // Resetta l'audio
+                currentAudio.currentTime = 0; 
             }
             updatePlayerTurn();
             resetState();
@@ -80,7 +77,6 @@
             countdown.style.display = 'block';
             countdownValue = 20;
             countdown.innerText = countdownValue;
-
             countdownInterval = setInterval(function () {
                 countdownValue--;
                 if (countdownValue > 0) {
@@ -96,7 +92,7 @@
         function playRandomAudio() {
             const random = Math.random();
             let twist = random < 0.4;
-            currentAudio = twist ? document.getElementById("audioA") : document.getElementById("audioB");
+            currentAudio = document.getElementById(twist ? "audioA" : "audioB");
             twistGif.style.display = twist ? 'block' : 'none';
             currentAudio.playbackRate = twist ? 1.05 : 1;
             currentAudio.play();
