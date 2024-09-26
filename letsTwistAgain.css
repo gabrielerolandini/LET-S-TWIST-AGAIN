@@ -102,6 +102,12 @@ th:first-child {
     display: none;
 }
 
+#readyButton {
+    background-color: green;
+    color: white;
+    display: none;
+}
+
 #countdown-container {
     min-height: 80px;
     display: flex;
