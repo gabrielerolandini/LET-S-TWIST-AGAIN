@@ -145,21 +145,9 @@ th:first-child {
     width: 250px;
 }
 
-#twistAgainText {
-    display: block;
-    font-size: 3rem;
-    color: red;
-    text-align: center;
-    margin-top: 10px;
-}
-
 @media (max-width: 768px) {
     #twistGif {
         width: 200px; /* Riduci dimensione della GIF per schermi più piccoli */
-    }
-
-    #twistAgainText {
-        font-size: 2rem;
     }
 
     #countdown {
