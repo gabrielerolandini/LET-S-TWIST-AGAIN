@@ -125,7 +125,8 @@ th:first-child {
 
 #twistGif {
     width: 250px;
-    transform: translateY(-50px);
+    transform: translateY(-100px);
+    margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
