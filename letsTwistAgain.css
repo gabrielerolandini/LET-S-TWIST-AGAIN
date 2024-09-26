@@ -131,12 +131,18 @@ th:first-child {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 300px;
+    margin-top: 10px;
+    overflow: hidden;
 }
 
 #twistGif {
-    display: block;
-    margin: 0 auto;
     width: 250px;
+    visibility: hidden;
+}
+
+#twistGif.show {
+    visibility: visible;
 }
 
 @media (max-width: 768px) {
