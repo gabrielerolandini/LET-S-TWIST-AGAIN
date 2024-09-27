@@ -40,10 +40,8 @@
         let currentAudio = null;
         let countdownInterval = null;
         let countdownValue = 20;
-        const maxPoints = 10;
         let currentPlayerIndex = 0;
         const players = JSON.parse(localStorage.getItem('players'));
-        const playersOrder = [...players];
         const startButton = document.getElementById("startButton");
         const nextButton = document.getElementById("nextButton");
         const countdown = document.getElementById("countdown");
@@ -106,64 +104,14 @@
         }
 
         function updatePlayerTurn() {
-            currentPlayerIndex = (currentPlayerIndex + 1) % playersOrder.length;
-            const currentPlayer = playersOrder[currentPlayerIndex];
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            const currentPlayer = players[currentPlayerIndex];
             turnMessage.textContent = `${currentPlayer.name}, IT'S YOUR TURN!`;
             turnMessage.style.color = currentPlayer.color;
         }
 
-        function updateScoreboard() {
-            const sortedPlayers = [...players].sort((a, b) => b.points - a.points);
-            const scoreboardBody = document.getElementById("scoreboardBody");
-            scoreboardBody.innerHTML = '';
-
-            sortedPlayers.forEach((player, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}°</td>
-                    <td style="background-color: ${player.color}; color: white;">${player.name}</td>
-                    <td>
-                        <div class="points-buttons">
-                            <button onclick="removePoints(${players.indexOf(player)})">-</button>
-                            ${player.points}
-                            <button onclick="addPoints(${players.indexOf(player)})">+</button>
-                        </div>
-                    </td>
-                `;
-                scoreboardBody.appendChild(row);
-            });
-            checkForWinner();
-        }
-
-        function addPoints(index) {
-            players[index].points++;
-            updateScoreboard();
-        }
-
-        function removePoints(index) {
-            if (players[index].points > 0) {
-                players[index].points--;
-                updateScoreboard();
-            }
-        }
-
-        function checkForWinner() {
-            const winner = players.find(player => player.points >= maxPoints);
-            if (winner) {
-                endGame(winner.name, winner.color);
-            }
-        }
-
-        function endGame(winnerName, winnerColor) {
-            clearInterval(countdownInterval);
-            countdown.innerText = `${winnerName} WINS!`;
-            countdown.style.color = winnerColor;
-            toggleButtons("none");
-        }
-
-        updateScoreboard();
-        turnMessage.textContent = `${playersOrder[0].name}, IT'S YOUR TURN!`;
-        turnMessage.style.color = playersOrder[0].color;
+        turnMessage.textContent = `${player[0].name}, IT'S YOUR TURN!`;
+        turnMessage.style.color = players[0].color;
     </script>
 
 </body>
