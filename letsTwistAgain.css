@@ -144,11 +144,3 @@ th:first-child {
         font-size: 3rem;
     }
 }
-
-#scoreboard {
-    margin-top: 10px;
-    width: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
