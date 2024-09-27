@@ -8,8 +8,8 @@
 </head>
 <body>
 
-    <img id="twistGif" src="twist.gif" alt="Twist GIF" style="display:none">
     <h1 id="lta" style="display:none; color:red">LET'S TWIST AGAIN!</h1>
+    <img id="twistGif" src="twist.gif" alt="Twist GIF" style="display:none">
     <h1 id="turnMessage"></h1>
 
     <div class="button-container">
@@ -37,7 +37,7 @@
         const countdown = document.getElementById("countdown");
         const turnMessage = document.getElementById("turnMessage");
         const twistGif = document.getElementById("twistGif");
-        const lta = document.getElementById("LTA");
+        const lta = document.getElementById("lta");
 
         function toggleButtons(active) {
             startButton.style.display = (active === "start") ? 'block' : 'none';
