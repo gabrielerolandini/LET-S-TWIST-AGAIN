@@ -8,6 +8,8 @@
 </head>
 <body>
 
+    <img id="twistGif" src="twist.gif" alt="Twist GIF" style="display:none">
+    
     <h1 id="turnMessage"></h1>
 
     <div class="button-container">
@@ -19,9 +21,6 @@
         <div id="countdown">20</div>
     </div>
 
-    <img id="twistGif" src="twist.gif" alt="Twist GIF" style="display:none">
-    <h1 id="lta">LET'S TWIST AGAIN!</h1>
-    
     <audio id="audioA" src="lets_twist_again.mp3"></audio>
     <audio id="audioB" src="countdown.mp3"></audio>
 
@@ -36,7 +35,6 @@
         const countdown = document.getElementById("countdown");
         const turnMessage = document.getElementById("turnMessage");
         const twistGif = document.getElementById("twistGif");
-        const lta = document.getElementById("lta");
 
         function toggleButtons(active) {
             startButton.style.display = (active === "start") ? 'block' : 'none';
@@ -51,7 +49,6 @@
 
         nextButton.addEventListener("click", function () {
             twistGif.style.display = "none";
-            lta.style.display = "none";
             if (currentAudio && !currentAudio.paused) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0; 
@@ -83,7 +80,6 @@
             let twist = random < 0.35;
             currentAudio = document.getElementById(twist ? "audioA" : "audioB");
             twistGif.style.display = twist ? 'block' : 'none';
-            lta.style.display = twist ? 'block' : 'none';
             currentAudio.playbackRate = twist ? 1.05 : 1;
             setTimeout(function() {}, twist ? 1000: 0);
             currentAudio.play();
