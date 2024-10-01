@@ -65,14 +65,17 @@
         function startCountdown() {
             clearInterval(countdownInterval);
             countdown.style.display = 'block';
+            countdown.style.color = 'black';
             countdownValue = 20;
             countdown.innerText = countdownValue;
             countdownInterval = setInterval(function () {
                 countdownValue--;
                 if (countdownValue > 0) {
+                    countdown.style.color = countdown > 3? 'black' : 'red';
                     countdown.innerText = countdownValue;
                 } else {
                     clearInterval(countdownInterval);
+                    countdown.style.color = 'red';
                     countdown.innerText = "STOP!";
                     toggleButtons("next");
                 }
