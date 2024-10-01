@@ -31,7 +31,6 @@
         const maxPoints = 10;
         let currentPlayerIndex = 0;
         const players = JSON.parse(localStorage.getItem('players'));
-        const playersOrder = [...players];
         const startButton = document.getElementById("startButton");
         const nextButton = document.getElementById("nextButton");
         const countdown = document.getElementById("countdown");
@@ -71,7 +70,6 @@
             countdownInterval = setInterval(function () {
                 countdownValue--;
                 if (countdownValue > 0) {
-                    console.log(countdownValue, countdownValue > 3)
                     countdown.style.color = countdownValue > 3? 'black' : 'red';
                     countdown.innerText = countdownValue;
                 } else {
