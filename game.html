@@ -38,6 +38,10 @@
         const twistGif = document.getElementById("twistGif");
         const lta = document.getElementById("lta");
 
+        window.onload = function() {
+            updatePlayerTurn();
+        };
+        
         function toggleButtons(active) {
             startButton.style.display = (active === "start") ? 'block' : 'none';
             nextButton.style.display = (active === "next") ? 'block' : 'none';
@@ -99,10 +103,10 @@
         }
 
         function updatePlayerTurn() {
-            currentPlayerIndex = (currentPlayerIndex + 1) % playersOrder.length;
-            const currentPlayer = playersOrder[currentPlayerIndex];
+            const currentPlayer = players[currentPlayerIndex];
             turnMessage.textContent = `${currentPlayer.name}, IT'S YOUR TURN!`;
             turnMessage.style.color = currentPlayer.color;
+            currentPlayerIndex++;
         }
 
     </script>
