@@ -71,6 +71,7 @@
             countdownInterval = setInterval(function () {
                 countdownValue--;
                 if (countdownValue > 0) {
+                    console.log(countdown, countdown > 3)
                     countdown.style.color = countdown > 3? 'black' : 'red';
                     countdown.innerText = countdownValue;
                 } else {
