@@ -123,7 +123,7 @@ th:first-child {
 }
 
 #countdown {
-    font-size: 10rem;
+    font-size: 7rem;
     color: black;
     display: none;
     text-align: center;
@@ -140,6 +140,6 @@ th:first-child {
     }
 
     #countdown {
-        font-size: 3rem;
+        font-size: 7rem;
     }
 }
