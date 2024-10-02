@@ -105,7 +105,7 @@
         function updatePlayerTurn() {
             currentPlayerIndex = currentPlayerIndex % players.length;
             const currentPlayer = players[currentPlayerIndex];
-            turnMessage.textContent = `${currentPlayer.name}<br>IT'S YOUR TURN!`;
+            turnMessage.innerHTML = `${currentPlayer.name}<br>IT'S YOUR TURN!`;
             turnMessage.style.color = currentPlayer.color;
             currentPlayerIndex++;
         }
